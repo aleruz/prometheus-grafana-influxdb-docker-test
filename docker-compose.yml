@@ -8,21 +8,21 @@ services:
       - "8086:8086"
       - "35826:25826/udp"
     volumes:
-      - ./influxdb:/var/lib/influxdb
-      - ./influxdb.conf:/etc/influxdb/influxdb.conf
-      - ./types.db:/usr/share/collectd/types.db:ro
+      - ./influxdb:/var/lib/influxdb:Z
+      - ./influxdb.conf:/etc/influxdb/influxdb.conf:Z
+      - ./types.db:/usr/share/collectd/types.db:Z
   grafana:
     image: grafana/grafana:3.1.1
     ports:
       - "3000:3000"
     volumes:
-      - ./grafana:/var/lib/grafana
+      - ./grafana:/var/lib/grafana:Z
   prometheus:
     image: prom/prometheus
     ports:
       - "9090:9090"
     volumes:
-      - /Users/robert/temp/pr/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:Z
     command:
       - "-config.file=/etc/prometheus/prometheus.yml"
       - "-storage.remote.influxdb-url=http://influxdb:8086/"
@@ -34,5 +34,3 @@ services:
       - "25826:25826/udp"
     command:
       - "-collectd.listen-address=:25826"
-
-    
